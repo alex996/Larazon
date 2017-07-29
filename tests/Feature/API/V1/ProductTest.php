@@ -21,7 +21,7 @@ class ProductTest extends TestCase
         $products = factory(Product::class, 10)->create();
 
         // When
-        $response = $this->get('api/v1/products');
+        $response = $this->get(route('products.index'));
 
         // Then
         $response->assertJson($products->toArray());
