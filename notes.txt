@@ -1,0 +1,29 @@
+*** business ***
+
+Customer
+- View all products
+- View product details
+- Add a product to a shopping cart
+- Place an order
+- Register an account
+- Log in to your account
+- View a list of orders
+
+Administrator
+- Log in to the system
+- Add a product to the inventory
+- View product details, Update, Delete
+- View a list of orders (with revenues)
+- View a particular order
+
+*** tech ***
+- moving User to Models:
+  - update config/auth.php
+  - update packages (e.g. JWT)
+  - update your own code: grep -R 'User' / 'App/User'
+- Admin / UserController / @show
+  views
+    admin
+      users
+        show
+  resource('users')
