@@ -30,6 +30,11 @@ Administrator
         show
   resource('users')
 
-! research
+---> IMPLEMENT <---
 
+- repository, separating Eloquent concerns into separate classes
 - api pagination
+- add proper responses (Dingo?)
+- time to transform models too!!
+
+=== ref. Incremental APIs series ===
