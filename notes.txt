@@ -1,6 +1,7 @@
 *** business ***
 
 Customer
+- View all product categories
 - View all products
 - View product details
 - Add a product to a shopping cart
@@ -28,3 +29,7 @@ Administrator
       users
         show
   resource('users')
+
+! research
+
+- api pagination
