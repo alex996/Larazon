@@ -18,5 +18,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::namespace('API\V1')->prefix('v1')->group(function() {
+    // Products
     Route::get('products', 'ProductController@index')->name('products.index');
+
+    // categories
+    Route::get('categories', 'CategoryController@index')->name('categories.index');
 });
