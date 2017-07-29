@@ -15,7 +15,7 @@ class ProductTest extends TestCase
      *
      * @return void
      */
-    public function testItReturnsProductsForGetRequest()
+    public function testItReturnsProductsArray()
     {
         // Given
         $products = factory(Product::class, 10)->create();
