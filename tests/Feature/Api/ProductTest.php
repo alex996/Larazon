@@ -24,6 +24,10 @@ class ProductTest extends TestCase
         $response = $this->get(route('products.index'));
 
         // Then
-        $response->assertJson($products->toArray());
+        $response->assertJsonStructure([
+            'data' => [
+                ['name', 'description', 'price', 'quantity']
+            ],
+        ]);
     }
 }

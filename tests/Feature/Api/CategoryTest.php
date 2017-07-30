@@ -24,6 +24,10 @@ class CategoryTest extends TestCase
         $response = $this->get(route('categories.index'));
 
         // Then
-        $response->assertJson($categories->toArray());
+        $response->assertJsonStructure([
+            'data' => [
+                ['slug', 'name',]
+            ],
+        ]);
     }
 }
