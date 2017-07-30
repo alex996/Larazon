@@ -10,7 +10,7 @@ class ProductTransformer extends TransformerAbstract
     /**
      * Turn this item object into a generic array.
      *
-     * @param  \App\Models\Product  $product
+     * @param  Product  $product
      * @return array
      */
 	public function transform(Product $product)

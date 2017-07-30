@@ -10,6 +10,11 @@ use App\Http\Transformers\ProductTransformer;
 
 class ProductController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     * 
+     * @param ProductTransformer $transformer
+     */
     public function __construct(ProductTransformer $transformer)
     {
         $this->transformer = $transformer;
@@ -20,7 +25,7 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $products = Product::paginate(50);
 
