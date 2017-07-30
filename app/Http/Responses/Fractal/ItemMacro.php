@@ -18,7 +18,7 @@ class ItemMacro implements Macroable
     protected $fractal;
 
     /**
-     * Create a new controller instance.
+     * Create a new macro instance.
      * 
      * @param Manager $fractal
      */
