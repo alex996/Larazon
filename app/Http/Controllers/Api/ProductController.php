@@ -5,18 +5,13 @@ namespace App\Http\Controllers\Api;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Response;
 use App\Http\Transformers\ProductTransformer;
-
-use League\Fractal\Resource\Collection;
-use League\Fractal\Manager;
-use League\Fractal\Serializer\DataArraySerializer;
-
 
 class ProductController extends Controller
 {
-    public function __construct(Manager $fractal, ProductTransformer $transformer)
+    public function __construct(ProductTransformer $transformer)
     {
-        $this->fractal = $fractal;
         $this->transformer = $transformer;
     }
 
@@ -27,12 +22,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
+        $products = Product::paginate(50);
 
-        $products = new Collection($products, $this->transformer);
-
-        $products = $this->fractal->createData($products)->toArray();
-
-        dd($products);
+        return Response::paginator($products, $this->transformer);
     }
 }
