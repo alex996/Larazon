@@ -16,7 +16,9 @@ class ErrorMacro
     {
         $factory->macro('error', function (string $message = 'Bad Request', $status = 400, array $headers = [], $options = 0) use ($factory) {
             return $factory->json([
-                'message' => $message
+                'error' => [
+                    'message' => $message
+                ],                
             ], $status);
         });
     }
