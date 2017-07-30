@@ -13,7 +13,7 @@ class CollectionMacro implements Macroable
     /**
      * Fractal Manager.
      * 
-     * @var [type]
+     * @var Manager
      */
     protected $fractal;
 

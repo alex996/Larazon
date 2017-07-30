@@ -14,7 +14,7 @@ class PaginatorMacro implements Macroable
     /**
      * Fractal Manager.
      * 
-     * @var [type]
+     * @var Manager
      */
     protected $fractal;
 

@@ -8,6 +8,7 @@ interface Macroable
 {
     /**
      * Bind the macro to the Response factory.
+     * 
      * @param  ResponseFactory $factory
      * @return void
      */
