@@ -38,3 +38,10 @@ Administrator
 - time to transform models too!!
 
 === ref. Incremental APIs series ===
+
+
+
+*** resources ***
+- macros inspired by https://github.com/appstract/laravel-response-macros
+- and https://www.neontsunami.com/posts/using-fractal-with-laravel-and-lumen
+- and https://www.sitepoint.com/php-fractal-make-your-apis-json-pretty-always/
