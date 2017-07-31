@@ -31,4 +31,9 @@ class ProductController extends Controller
 
         return Response::paginator($products, $this->transformer);
     }
+
+    public function show(Product $product)
+    {
+        return Response::item($product, $this->transformer);
+    }
 }

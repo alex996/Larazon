@@ -6,7 +6,7 @@ use App\Http\Responses;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Routing\ResponseFactory;
 
-class ResponseMacroServiceProvider extends ServiceProvider
+class ResponseServiceProvider extends ServiceProvider
 {
     /**
      * Response macros.

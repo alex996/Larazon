@@ -15,7 +15,7 @@ class ProductTest extends TestCase
      *
      * @return void
      */
-    public function testItReturnsProductsArray()
+    public function testItTransformsProducts()
     {
         // Given
         $products = factory(Product::class, 10)->create();
@@ -24,10 +24,28 @@ class ProductTest extends TestCase
         $response = $this->get(route('products.index'));
 
         // Then
-        $response->assertJsonStructure([
-            'data' => [
-                ['name', 'description', 'price', 'quantity']
-            ],
-        ]);
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                'data' => [
+                    ['name', 'description', 'price', 'quantity']
+                ],
+            ]);
+    }
+
+    public function testItTransformsSingleProduct()
+    {
+        // Given
+        $product = factory(Product::class)->create();
+
+        // When
+        $response = $this->get(route('products.show', [$product]));
+        
+        // Then
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                'data' => [
+                    ['name', 'description', 'price', 'quantity']
+                ],
+            ]);
     }
 }

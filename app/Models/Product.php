@@ -7,6 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name', 'description', 'price', 'quantity'
+    ];
+
+    /**
      * The attributes that should be cast to native types.
      *
      * @var array
@@ -15,4 +24,14 @@ class Product extends Model
         'price'    => 'float',
         'quantity' => 'integer',
     ];
+
+    /**
+     * Get the value of the model's route key.
+     *
+     * @return mixed
+     */
+    public function getRouteKey()
+    {
+        return $this->slug;
+    }
 }
