@@ -10,18 +10,16 @@ use App\Repositories\Product\ProductRepository;
 
 class ProductController extends Controller
 {
-    protected $repository;
-
     protected $transformer;
 
     /**
      * Create a new controller instance.
-     * 
-     * @param ProductTransformer $transformer
+     *
+     * @param  \Illuminate\Http\Request
+     * @param  ProductTransformer $transformer
      */
-    public function __construct(ProductRepository $repository, ProductTransformer $transformer)
+    public function __construct(ProductTransformer $transformer)
     {
-        $this->repository = $repository;
         $this->transformer = $transformer;
     }
 
@@ -32,11 +30,17 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = $this->repository->paginate(50);
+        $products = Product::paginate(50);
 
         return Response::paginator($products, $this->transformer);
     }
 
+    /**
+     * Display a single resource.
+     * 
+     * @param  App\Models\Product $product
+     * @return \Illuminate\Http\Response
+     */
     public function show(Product $product)
     {
         return Response::item($product, $this->transformer);

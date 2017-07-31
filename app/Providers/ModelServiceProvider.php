@@ -29,8 +29,6 @@ class ModelServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(ProductRepository::class, EloquentProductRepository::class);
-
-        $this->app->bind(CategoryRepository::class, EloquentCategoryRepository::class);
+        //
     }
 }
