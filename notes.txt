@@ -1,3 +1,18 @@
+1. write tests
+2. exception bubbling
+    - https://github.com/dingo/api/wiki/Errors-And-Error-Responses
+    - https://github.com/laravel/framework/issues/10639
+    - https://laracasts.com/discuss/channels/code-review/best-way-to-handle-rest-api-errors-throwed-from-controller-or-exception
+    - https://stackoverflow.com/questions/41840840/explicit-model-binding-using-route-segment-names
+3. moving User to Models:
+  - update config/auth.php
+  - update packages (e.g. JWT)
+  - update your own code: grep -R 'User' / 'App/User'
+4. const on model, model interfaces, getters???
+5. more response macros (created 201, noContent, https://github.com/dingo/api/wiki/Responses)
+
+---------------------------------------------------------------
+
 *** business ***
 
 Customer
@@ -17,12 +32,6 @@ Administrator
 - View a list of orders (with revenues)
 - View a particular order
 
-*** tech ***
-
-- moving User to Models:
-  - update config/auth.php
-  - update packages (e.g. JWT)
-  - update your own code: grep -R 'User' / 'App/User'
 - Admin / UserController / @show
   views
     admin
@@ -30,18 +39,10 @@ Administrator
         show
   resource('users')
 
----> IMPLEMENT <---
-
-- repository, separating Eloquent concerns into separate classes
-- api pagination
-- add proper responses (Dingo?)
-- time to transform models too!!
-
 === ref. Incremental APIs series ===
-
-
 
 *** resources ***
 - macros inspired by https://github.com/appstract/laravel-response-macros
 - and https://www.neontsunami.com/posts/using-fractal-with-laravel-and-lumen
 - and https://www.sitepoint.com/php-fractal-make-your-apis-json-pretty-always/
+- repositories from https://medium.com/laravel-news/separation-of-concerns-with-laravel-s-eloquent-part-1-an-introduction-c9a6dc6b4a65
