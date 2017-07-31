@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
-use App\Models\Product;
-use App\Observers\ProductObserver;
+use App\Models\{Product, Category};
 use Illuminate\Support\ServiceProvider;
+use App\Observers\{ProductObserver, CategoryObserver};
+use App\Repositories\Product\{ProductRepository, EloquentProductRepository};
+use App\Repositories\Category\{CategoryRepository, EloquentCategoryRepository};
 
 class ModelServiceProvider extends ServiceProvider
 {
@@ -16,5 +18,19 @@ class ModelServiceProvider extends ServiceProvider
     public function boot()
     {
         Product::observe(ProductObserver::class);
+
+        Category::observe(CategoryObserver::class);
+    }
+
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->app->bind(ProductRepository::class, EloquentProductRepository::class);
+
+        $this->app->bind(CategoryRepository::class, EloquentCategoryRepository::class);
     }
 }

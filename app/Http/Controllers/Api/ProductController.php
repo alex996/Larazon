@@ -7,16 +7,22 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Response;
 use App\Http\Transformers\ProductTransformer;
+use App\Repositories\Product\ProductRepository;
 
 class ProductController extends Controller
 {
+    protected $repository;
+
+    protected $transformer;
+
     /**
      * Create a new controller instance.
      * 
      * @param ProductTransformer $transformer
      */
-    public function __construct(ProductTransformer $transformer)
+    public function __construct(ProductRepository $repository, ProductTransformer $transformer)
     {
+        $this->repository = $repository;
         $this->transformer = $transformer;
     }
 
@@ -27,7 +33,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = Product::paginate(50);
+        $products = $this->repository->paginate(50);
 
         return Response::paginator($products, $this->transformer);
     }

@@ -44,7 +44,7 @@ class ProductTest extends TestCase
         $response->assertStatus(200)
             ->assertJsonStructure([
                 'data' => [
-                    ['name', 'description', 'price', 'quantity']
+                    'name', 'description', 'price', 'quantity'
                 ],
             ]);
     }

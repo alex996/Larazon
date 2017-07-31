@@ -17,6 +17,7 @@ class ProductTransformer extends TransformerAbstract
 	{
 	    return [
 	        'name'        => $product->name,
+            'slug'        => $product->slug,
 	        'description' => $product->description,
             'price'       => (float) $product->price,
             'quantity'    => (int) $product->quantity,

@@ -34,4 +34,14 @@ class Product extends Model
     {
         return $this->slug;
     }
+
+        /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }
