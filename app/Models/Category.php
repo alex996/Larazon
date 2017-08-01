@@ -25,7 +25,7 @@ class Category extends Model
         return $this->slug;
     }
 
-        /**
+    /**
      * Get the route key for the model.
      *
      * @return string
