@@ -15,18 +15,23 @@ class CategoryTest extends TestCase
      *
      * @return void
      */
-    public function testItReturnsCategoriesArray()
+    public function testItTransformsAndPaginatesCategories()
     {
         // Given
         $categories = factory(Category::class, 10)->create();
 
         // When
-        $response = $this->get(route('categories.index'));
+        $response = $this->getJson(route('categories.index'));
 
         // Then
         $response->assertJsonStructure([
             'data' => [
-                ['slug', 'name',]
+                ['slug', 'name']
+            ],
+            'meta' => [
+                'pagination' => [
+                    'total', 'count', 'per_page', 'current_page', 'total_pages', 'links'
+                ]
             ],
         ]);
     }

@@ -15,37 +15,56 @@ class ProductTest extends TestCase
      *
      * @return void
      */
-    public function testItTransformsProducts()
+    public function testItTransformsAndPaginatesProducts()
     {
         // Given
         $products = factory(Product::class, 10)->create();
 
         // When
-        $response = $this->get(route('products.index'));
+        $response = $this->getJson(route('products.index'));
 
         // Then
         $response->assertStatus(200)
             ->assertJsonStructure([
                 'data' => [
-                    ['name', 'description', 'price', 'quantity']
+                    ['name', 'slug', 'description', 'price', 'quantity']
+                ],
+                'meta' => [
+                    'pagination' => [
+                        'total', 'count', 'per_page', 'current_page', 'total_pages', 'links'
+                    ]
                 ],
             ]);
     }
 
-    public function testItTransformsSingleProduct()
+    public function testItTransformsAndReturnsProduct()
     {
         // Given
         $product = factory(Product::class)->create();
 
         // When
-        $response = $this->get(route('products.show', [$product]));
+        $response = $this->getJson(route('products.show', [$product]));
         
         // Then
         $response->assertStatus(200)
             ->assertJsonStructure([
                 'data' => [
-                    'name', 'description', 'price', 'quantity'
+                    'name', 'slug', 'description', 'price', 'quantity'
                 ],
             ]);
+    }
+
+    public function testItResolvesProductBySlug()
+    {
+        // Given
+        $product = factory(Product::class)->create();
+
+        // When
+        $responseSuccess = $this->getJson(route('products.show', ['slug' => $product->slug]));
+        $responseNotFound = $this->getJson(route('products.show', ['id' => $product->id]));
+
+        // Then
+        $responseSuccess->assertStatus(200);
+        $responseNotFound->assertStatus(404);
     }
 }
