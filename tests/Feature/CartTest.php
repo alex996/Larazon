@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use App\Models\Cart;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -17,9 +18,6 @@ class CartTest extends TestCase
      */
     public function testItStoresCartAndReturnsItsUuidWithCookie()
     {
-        // Given
-        //$this
-
         // When
         $response = $this->postJson(route('carts.store'), []);
         $uuid = array_get($response->getOriginalContent(), 'data.uuid');
@@ -40,12 +38,17 @@ class CartTest extends TestCase
         ]);
     }
 
-    /*public function testItDoesNotStoreCartIfCookieIsSet()
+    public function testItDoesNotStoreCartIfCookieIsSet()
     {
         // Given
-        
+        $cart = factory(Cart::class)->create();
+
         // When
-        
-        $this->withCookie()
-    }*/
+        $response = $this->call('POST', route('carts.store'), [], [
+            'uuid' => Crypt::encrypt($cart->uuid)
+        ]);
+
+        // Then
+        $response->assertStatus(400);
+    }
 }
