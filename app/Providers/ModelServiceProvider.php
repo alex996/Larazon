@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use App\Models\{Product, Category};
 use Illuminate\Support\ServiceProvider;
-use App\Observers\{ProductObserver, CategoryObserver};
+use App\Models\{Cart, Category, Product};
+use App\Observers\{CartObserver, CategoryObserver, ProductObserver};
 use App\Repositories\Product\{ProductRepository, EloquentProductRepository};
 use App\Repositories\Category\{CategoryRepository, EloquentCategoryRepository};
 
@@ -20,6 +20,8 @@ class ModelServiceProvider extends ServiceProvider
         Product::observe(ProductObserver::class);
 
         Category::observe(CategoryObserver::class);
+
+        Cart::observe(CartObserver::class);
     }
 
     /**

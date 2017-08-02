@@ -21,5 +21,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('products', 'ProductController@index')->name('products.index');
 Route::get('products/{product}', 'ProductController@show')->name('products.show');
 
-// categories
+// Categories
 Route::get('categories', 'CategoryController@index')->name('categories.index');
+
+// Carts
+Route::post('carts', 'CartController@store')->name('carts.store');
