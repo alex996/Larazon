@@ -23,7 +23,7 @@ class CartTest extends TestCase
         $uuid = array_get($response->getOriginalContent(), 'data.uuid');
 
         // Then
-        $response->assertStatus(200)
+        $response->assertStatus(201)
             ->assertJsonStructure([
                 'data' => [
                     'uuid'
@@ -38,7 +38,7 @@ class CartTest extends TestCase
         ]);
     }
 
-    public function testItDoesNotStoreCartIfCookieIsSet()
+    public function testItRejectsRequestIfCookieIsSet()
     {
         // Given
         $cart = factory(Cart::class)->create();
