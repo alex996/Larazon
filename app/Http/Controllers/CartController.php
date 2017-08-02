@@ -42,7 +42,7 @@ class CartController extends Controller
         $cart = Cart::create([]);
 
         return Response::item($cart, $this->transformer)
-            ->cookie('uuid', $cart->uuid, 60*24*7);
+            ->withCookie('uuid', $cart->uuid, 60*24*7);
     }
 
     /**
