@@ -17,9 +17,7 @@ class CartObserver
     {
         // Whenever a cart is created, auto-generate its uuid, if needed
         if (! $cart->isDirty('uuid')) {
-            $cart->uuid = Uuid::uuid5(
-                Uuid::NAMESPACE_DNS, config('app.url')
-            )->toString();
+            $cart->uuid = Uuid::uuid4()->toString();
         }
     }
 }
