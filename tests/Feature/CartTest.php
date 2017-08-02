@@ -32,11 +32,20 @@ class CartTest extends TestCase
                 ]
             ])
             ->assertCookie(
-                'uuid', $uuid, false
+                'uuid', $uuid
             );
 
         $this->assertDatabaseHas('carts', [
             'uuid' => $uuid
         ]);
     }
+
+    /*public function testItDoesNotStoreCartIfCookieIsSet()
+    {
+        // Given
+        
+        // When
+        
+        $this->withCookie()
+    }*/
 }
