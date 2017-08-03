@@ -35,13 +35,8 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->hasCookie('uuid')) {
-            throw new BadRequestHttpException;
-        }
-
-        $cart = Cart::create([]);
-
-        return Response::item($cart, $this->transformer, 201)
-            ->withCookie('uuid', $cart->uuid, 60*24*7);
+        return Response::item(
+            Cart::create([]), $this->transformer, 201
+        );
     }
 }
