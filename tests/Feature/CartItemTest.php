@@ -95,7 +95,7 @@ class CartItemTest extends TestCase
         $response->assertStatus(404);
     }
     
-    public function testItDoesNotUpdateQuantityIfItsTheSame()
+    public function testItDoesNotUpdateQuantityIfItDidntChange()
     {
         // Given
         $cart = factory(Cart::class)->create();

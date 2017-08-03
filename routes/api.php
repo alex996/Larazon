@@ -30,3 +30,4 @@ Route::post('carts', 'CartController@store')->name('carts.store');
 // Cart Items
 Route::post('carts/{cart}/items', 'CartItemController@store')->name('cart-items.store');
 Route::patch('carts/{cart}/items/{item}', 'CartItemController@update')->name('cart-items.update');
+Route::get('carts/{cart}/items', 'CartItemController@index')->name('cart-items.index');
