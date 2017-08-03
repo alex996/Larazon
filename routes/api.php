@@ -26,3 +26,6 @@ Route::get('categories', 'CategoryController@index')->name('categories.index');
 
 // Carts
 Route::post('carts', 'CartController@store')->name('carts.store');
+
+// Cart Items
+Route::post('carts/{cart}/items', 'CartItemController@store')->name('cart-items.store');
