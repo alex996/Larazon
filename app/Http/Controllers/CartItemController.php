@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\CartItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use App\Http\Transformers\CartItemTransformer;
 
 class CartItemController extends Controller
 {
@@ -15,9 +16,11 @@ class CartItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Cart $cart)
+    public function index(Cart $cart, CartItemTransformer $transformer)
     {
-        //
+        $items = $cart->items()->with('product')->get();
+
+        return Response::collection($items, $transformer);
     }
 
     /**
