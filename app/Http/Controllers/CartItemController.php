@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Product;
 use App\Models\CartItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
@@ -28,12 +29,12 @@ class CartItemController extends Controller
     public function store(Request $request, Cart $cart)
     {
         $this->validate($request, [
-            'product_id' => 'required|integer|exists:products,id',
+            'slug' => 'required|exists:products,slug',
             'quantity' => 'required|integer|min:1'
         ]);
 
         $item = new CartItem;
-        $item->product_id = $request->product_id;
+        $item->product_id = Product::whereSlug($request->slug)->value('id');
         $item->quantity = $request->quantity;
         $cart->addItem($item);
 

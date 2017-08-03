@@ -27,7 +27,7 @@ class CartItemTest extends TestCase
 
         // When
         $response = $this->postJson(route('cart-items.store', [$cart]), [
-            'product_id' => $product->id,
+            'slug' => $product->slug,
             'quantity' => $productQuantity
         ]);
 

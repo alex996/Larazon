@@ -14,7 +14,6 @@ class CartItem extends Model
     protected $fillable = [
         'quantity'
     ];
-
     /**
      * Get the value of the model's route key.
      *
@@ -22,7 +21,7 @@ class CartItem extends Model
      */
     public function getRouteKey()
     {
-        return $this->product_id;
+        return $this->uid;
     }
 
     /**
@@ -32,7 +31,7 @@ class CartItem extends Model
      */
     public function getRouteKeyName()
     {
-        return 'product_id';
+        return 'uid';
     }
 
     public function cart()
