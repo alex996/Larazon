@@ -26,15 +26,10 @@ class CartItemTest extends TestCase
         $productQuantity = 1;
 
         // When
-        $response = $this->call('POST', route('cart-items.store', ['uuid' => $cart->uuid]), [], [
-            'uuid' => Crypt::encrypt($cart->uuid)
-        ], [], [
-            'CONTENT_TYPE' => 'application/json',
-            'HTTP_ACCEPT' => 'application/json'
-        ], json_encode([
+        $response = $this->postJson(route('cart-items.store', [$cart]), [
             'product_id' => $product->id,
             'quantity' => $productQuantity
-        ]));
+        ]);
 
         // Then
         $response->assertStatus(201);
@@ -44,6 +39,4 @@ class CartItemTest extends TestCase
             'quantity' => $productQuantity
         ]);
     }
-
-    //public function testItRejects
 }

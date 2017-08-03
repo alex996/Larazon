@@ -20,7 +20,6 @@ class CartTest extends TestCase
     {
         // When
         $response = $this->postJson(route('carts.store'), []);
-        $uuid = array_get($response->getOriginalContent(), 'data.uuid');
 
         // Then
         $response->assertStatus(201)
@@ -28,27 +27,12 @@ class CartTest extends TestCase
                 'data' => [
                     'uuid'
                 ]
-            ])
-            ->assertCookie(
-                'uuid', $uuid
-            );
+            ]);
 
         $this->assertDatabaseHas('carts', [
-            'uuid' => $uuid
+            'uuid' => array_get(
+                $response->getOriginalContent(), 'data.uuid'
+            )
         ]);
-    }
-
-    public function testItRejectsRequestIfCookieIsSet()
-    {
-        // Given
-        $cart = factory(Cart::class)->create();
-
-        // When
-        $response = $this->call('POST', route('carts.store'), [], [
-            'uuid' => Crypt::encrypt($cart->uuid)
-        ]);
-
-        // Then
-        $response->assertStatus(400);
     }
 }

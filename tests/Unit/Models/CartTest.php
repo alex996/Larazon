@@ -17,7 +17,7 @@ class CartTest extends TestCase
      *
      * @return void
      */
-    public function itAddsItemWithProductIdAndQuantity()
+    public function testItAddsItemWithProductIdAndQuantity()
     {
         // Given
         $product = factory(Product::class)->create();
