@@ -70,7 +70,7 @@ class CartItemTest extends TestCase
         ]);
 
         // Then
-        $response->assertStatus(200);
+        $response->assertStatus(204);
         $this->assertDatabaseHas('cart_items', [
             'id' => $cartItem->id,
             'cart_id' => $cart->id,
@@ -118,5 +118,21 @@ class CartItemTest extends TestCase
                     'quantity'
                 ]
             ]);
+    }
+
+    public function testItRemovesItemFromCart()
+    {
+        // Given
+        $cart = factory(Cart::class)->create();
+        $cartItem = factory(CartItem::class)->create(['cart_id' => $cart->id]);
+
+        // When
+        $response = $this->deleteJson(route('cart-items.destroy', [$cart, $cartItem]));
+
+        // Then
+        $response->assertStatus(204);
+        $this->assertDatabaseMissing('cart_items', [
+            'id' => $cartItem->id
+        ]);
     }
 }

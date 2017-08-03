@@ -15,7 +15,7 @@ class CartItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Cart $cart)
     {
         //
     }
@@ -42,17 +42,6 @@ class CartItemController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\CartItem  $item
-     * @return \Illuminate\Http\Response
-     */
-    public function show(CartItem $item)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -68,7 +57,7 @@ class CartItemController extends Controller
         $item->quantity = $request->quantity;
         $item->save();
 
-        return Response::json([], 200);
+        return Response::json([], 204);
     }
 
     /**
@@ -77,8 +66,10 @@ class CartItemController extends Controller
      * @param  \App\Models\CartItem  $item
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CartItem $item)
+    public function destroy(Cart $cart, CartItem $item)
     {
-        //
+        $item->delete();
+
+        return Response::json([], 204);
     }
 }
