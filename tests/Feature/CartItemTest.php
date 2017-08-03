@@ -44,19 +44,79 @@ class CartItemTest extends TestCase
     {
         // Given
         $cartUuid = 'a-random-non-existent-cart-uuid';
-        $product = factory(Product::class)->create();
-        $productQuantity = 1;
 
         // When
         $response = $this->postJson(
-            route('cart-items.store', ['cart' => $cartUuid]), 
-            [
-                'product_id' => $product->id,
-                'quantity' => $productQuantity
-            ]
+            route('cart-items.store', ['cart' => $cartUuid])
         );
 
         // Then
         $response->assertStatus(404);
+    }
+
+    public function testItUpdatesItemQuantityInCart()
+    {
+        // Given
+        $cart = factory(Cart::class)->create();
+        $cartItem = factory(CartItem::class)->create([
+            'cart_id' => $cart->id,
+            'quantity' => 1
+        ]);
+        $newProductQuantity = 2;
+
+        // When
+        $response = $this->patchJson(route('cart-items.update', [$cart, $cartItem]), [
+            'quantity' => $newProductQuantity
+        ]);
+
+        // Then
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('cart_items', [
+            'id' => $cartItem->id,
+            'cart_id' => $cart->id,
+            'product_id' => $cartItem->product_id,
+            'quantity' => $newProductQuantity
+        ]);
+    }
+
+    public function testItDoesNotUpdateQuantityIfCartItemNotFound()
+    {
+        // Given
+        $cart = factory(Cart::class)->create();
+        $cartItemProductId = 999;
+
+        // When
+        $response = $this->patchJson(route('cart-items.update', [
+            'cart' => $cart->uuid,
+            'item' => $cartItemProductId
+        ]));
+
+        // Then
+        $response->assertStatus(404);
+    }
+    
+    public function testItDoesNotUpdateQuantityIfItsTheSame()
+    {
+        // Given
+        $cart = factory(Cart::class)->create();
+        $cartItem = factory(CartItem::class)->create([
+            'cart_id' => $cart->id,
+            'quantity' => 1
+        ]);
+        $newProductQuantity = $cartItem->quantity;
+
+        // When
+        $response = $this->patchJson(route('cart-items.update', [$cart, $cartItem]), [
+            'quantity' => $newProductQuantity
+        ]);
+
+        // Then
+        $response->assertStatus(422)
+            ->assertJsonStructure([
+                'message',
+                'errors' => [
+                    'quantity'
+                ]
+            ]);
     }
 }

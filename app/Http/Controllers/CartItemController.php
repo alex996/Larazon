@@ -43,10 +43,10 @@ class CartItemController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\CartItem  $cartItem
+     * @param  \App\Models\CartItem  $item
      * @return \Illuminate\Http\Response
      */
-    public function show(CartItem $cartItem)
+    public function show(CartItem $item)
     {
         //
     }
@@ -55,21 +55,28 @@ class CartItemController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\CartItem  $cartItem
+     * @param  \App\Models\CartItem  $item
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CartItem $cartItem)
+    public function update(Request $request, Cart $cart, CartItem $item)
     {
-        //
+        $this->validate($request, [
+            'quantity' => 'required|integer|min:1|not_in:'.$item->quantity,
+        ]);
+
+        $item->quantity = $request->quantity;
+        $item->save();
+
+        return Response::json([], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\CartItem  $cartItem
+     * @param  \App\Models\CartItem  $item
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CartItem $cartItem)
+    public function destroy(CartItem $item)
     {
         //
     }

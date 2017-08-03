@@ -15,6 +15,26 @@ class CartItem extends Model
         'quantity'
     ];
 
+    /**
+     * Get the value of the model's route key.
+     *
+     * @return mixed
+     */
+    public function getRouteKey()
+    {
+        return $this->product_id;
+    }
+
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'product_id';
+    }
+
     public function cart()
     {
         return $this->belongsTo(Cart::class);
