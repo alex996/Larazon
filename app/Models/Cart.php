@@ -26,13 +26,24 @@ class Cart extends Model
         return 'uuid';
     }
 
-    public function items()
+    public function products()
     {
-        return $this->hasMany(CartItem::class);
+        return $this->belongsToMany(Product::class)
+            ->withPivot('quantity')
+            ->withTimestamps();
     }
 
-    public function addItem(CartItem $item)
+    /*public function addProduct(Product $product, int $quantity = 1)
     {
-        return $this->items()->save($item);
+        return $this->products()->attach(
+            $product->id, compact('quantity')
+        );
     }
+
+    public function updateProduct(Product $product, array $attributes)
+    {
+        return $this->products()->updateExistingPivot(
+            $product->id, $attributes
+        );
+    }*/
 }

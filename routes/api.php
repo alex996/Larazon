@@ -28,7 +28,7 @@ Route::get('categories', 'CategoryController@index')->name('categories.index');
 Route::post('carts', 'CartController@store')->name('carts.store');
 
 // Cart Items
-Route::get('carts/{cart}/items', 'CartItemController@index')->name('cart-items.index');
-Route::post('carts/{cart}/items', 'CartItemController@store')->name('cart-items.store');
-Route::patch('carts/{cart}/items/{item}', 'CartItemController@update')->name('cart-items.update');
-Route::delete('carts/{cart}/items/{item}', 'CartItemController@destroy')->name('cart-items.destroy');
+Route::get('carts/{cart}/products', 'CartProductController@index')->name('cart-products.index');
+Route::post('carts/{cart}/products', 'CartProductController@store')->name('cart-products.store');
+Route::patch('carts/{cart}/products/{product}', 'CartProductController@update')->name('cart-products.update');
+Route::delete('carts/{cart}/products/{product}', 'CartProductController@destroy')->name('cart-products.destroy');

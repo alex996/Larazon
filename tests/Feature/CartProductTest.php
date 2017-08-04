@@ -5,109 +5,109 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\Cart;
 use App\Models\Product;
-use App\Models\CartItem;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class CartItemTest extends TestCase
+class CartProductTest extends TestCase
 {
     use RefreshDatabase;
-    
+
     /**
      * A basic test example.
      *
      * @return void
      */
-    public function testItAddsItemToCart()
+    public function testItAddsProductToCart()
     {
         // Given
         $cart = factory(Cart::class)->create();
         $product = factory(Product::class)->create();
-        $productQuantity = 1;
+        $quantity = 1;
 
         // When
-        $response = $this->postJson(route('cart-items.store', [$cart]), [
+        $response = $this->postJson(route('cart-products.store', [$cart]), [
             'slug' => $product->slug,
-            'quantity' => $productQuantity
+            'quantity' => $quantity
         ]);
 
         // Then
         $response->assertStatus(201);
-        $this->assertDatabaseHas('cart_items', [
+        $this->assertDatabaseHas('cart_product', [
             'cart_id' => $cart->id,
             'product_id' => $product->id,
-            'quantity' => $productQuantity
+            'quantity' => $quantity
         ]);
     }
 
-    public function testDoesNotAddItemIfCartNotFound()
+    public function testItDoesNotAddProductIfCartNotFound()
     {
         // Given
         $cartUuid = 'a-random-non-existent-cart-uuid';
 
         // When
         $response = $this->postJson(
-            route('cart-items.store', ['cart' => $cartUuid])
+            route('cart-products.store', ['cart' => $cartUuid])
         );
 
         // Then
         $response->assertStatus(404);
     }
 
-    public function testItUpdatesItemQuantityInCart()
+    //public function testItDoesNotAddProductIfItIsAlreadyInCart()
+
+    public function testItUpdatesProductInCart()
     {
         // Given
         $cart = factory(Cart::class)->create();
-        $cartItem = factory(CartItem::class)->create([
-            'cart_id' => $cart->id,
+        $product = factory(Product::class)->make();
+        $cart->products()->save($product, [
             'quantity' => 1
         ]);
         $newProductQuantity = 2;
 
         // When
-        $response = $this->patchJson(route('cart-items.update', [$cart, $cartItem]), [
+        $response = $this->patchJson(route('cart-products.update', [$cart, $product]), [
             'quantity' => $newProductQuantity
         ]);
 
         // Then
         $response->assertStatus(204);
-        $this->assertDatabaseHas('cart_items', [
-            'id' => $cartItem->id,
+        $this->assertDatabaseHas('cart_product', [
             'cart_id' => $cart->id,
-            'product_id' => $cartItem->product_id,
+            'product_id' => $product->id,
             'quantity' => $newProductQuantity
         ]);
     }
 
-    public function testItDoesNotUpdateQuantityIfCartItemNotFound()
+    public function testItDoesNotUpdateProductIfItDoesNotExist()
     {
         // Given
         $cart = factory(Cart::class)->create();
-        $cartItemProductId = 999;
+        $slug = 'a-random-non-existent-product-slug';
 
         // When
-        $response = $this->patchJson(route('cart-items.update', [
+        $response = $this->patchJson(route('cart-products.update', [
             'cart' => $cart->uuid,
-            'item' => $cartItemProductId
+            'product' => $slug
         ]));
 
         // Then
         $response->assertStatus(404);
     }
-    
-    public function testItDoesNotUpdateQuantityIfItDidntChange()
+
+    //public function testItDoesNotUpdateProductIfItIsNotInCart()
+
+    /*public function testItDoesNotUpdateProductIfQuantityDidntChange()
     {
         // Given
         $cart = factory(Cart::class)->create();
-        $cartItem = factory(CartItem::class)->create([
-            'cart_id' => $cart->id,
+        $product = factory(Product::class)->make();
+        $cart->products()->save($product, [
             'quantity' => 1
         ]);
-        $newProductQuantity = $cartItem->quantity;
 
         // When
-        $response = $this->patchJson(route('cart-items.update', [$cart, $cartItem]), [
-            'quantity' => $newProductQuantity
+        $response = $this->patchJson(route('cart-products.update', [$cart, $product]), [
+            'quantity' => 1
         ]);
 
         // Then
@@ -118,21 +118,27 @@ class CartItemTest extends TestCase
                     'quantity'
                 ]
             ]);
-    }
+    }*/
 
-    public function testItRemovesItemFromCart()
+    public function testItDeletesProductFromCart()
     {
         // Given
         $cart = factory(Cart::class)->create();
-        $cartItem = factory(CartItem::class)->create(['cart_id' => $cart->id]);
+        $product = factory(Product::class)->make();
+        $cart->products()->save($product, [
+            'quantity' => 1
+        ]);
 
         // When
-        $response = $this->deleteJson(route('cart-items.destroy', [$cart, $cartItem]));
+        $response = $this->deleteJson(route('cart-products.destroy', [$cart, $product]));
 
         // Then
         $response->assertStatus(204);
-        $this->assertDatabaseMissing('cart_items', [
-            'id' => $cartItem->id
+        $this->assertDatabaseMissing('cart_product', [
+            'cart_id' => $cart->id,
+            'product_id' => $product->id
         ]);
     }
+
+    //public function testItDoesNotDeleteProductIfItIsNotInCart()
 }
