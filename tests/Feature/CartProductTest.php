@@ -249,4 +249,31 @@ class CartProductTest extends TestCase
         // Then
         $response->assertStatus(404);
     }
+
+    /*******************************************************************
+    ***************************** INDEX ********************************
+    *******************************************************************/
+
+    public function testItShowsCollectionOfCartProducts()
+    {
+        // Given
+        $cart = factory(Cart::class)->create();
+        $products = factory(Product::class, 10)
+            ->make()->each(function($product) use ($cart) {
+                $cart->products()->save($product, [
+                    'quantity' => 1
+                ]);
+            });
+
+        // When
+        $response = $this->getJson(route('cart-products.index', [$cart]));
+
+        // Then
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                'data' => [
+                    ['name', 'slug', 'description', 'price', 'quantity']
+                ],
+            ]);
+    }
 }

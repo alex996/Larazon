@@ -15,7 +15,7 @@ class CartTest extends TestCase
      *
      * @return void
      */
-    public function testItStoresCartAndReturnsItsUuidWithCookie()
+    public function testItStoresCartAndReturnsItsUuid()
     {
         // When
         $response = $this->postJson(route('carts.store'), []);

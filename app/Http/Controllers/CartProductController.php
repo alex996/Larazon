@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use App\Http\Transformers\ProductTransformer;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use App\Http\Requests\CartProduct\{DestroyCartProduct, StoreCartProduct, UpdateCartProduct};
 
@@ -16,9 +17,9 @@ class CartProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(ProductTransformer $transformer, Cart $cart)
     {
-        //
+        return Response::collection($cart->products, $transformer);
     }
 
     /**
