@@ -11,11 +11,10 @@ class CartProductTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
+    /*******************************************************************
+    ******************************* POST *******************************
+    *******************************************************************/
+
     public function testItAddsProductToCart()
     {
         // Given
@@ -38,21 +37,76 @@ class CartProductTest extends TestCase
         ]);
     }
 
-    public function testItDoesNotAddProductIfCartNotFound()
+    public function testItDoesNotAddProductIfItsAlreadyInCart()
     {
         // Given
-        $cartUuid = 'a-random-non-existent-cart-uuid';
+        $cart = factory(Cart::class)->create();
+        $product = factory(Product::class)->make();
+        $cart->products()->save($product, ['quantity' => 1]);
 
         // When
-        $response = $this->postJson(
-            route('cart-products.store', ['cart' => $cartUuid])
-        );
+        $response = $this->postJson(route('cart-products.store', [$cart]), [
+            'slug' => $product->slug,
+            'quantity' => 1
+        ]);
 
         // Then
-        $response->assertStatus(404);
+        $response->assertStatus(422)
+            ->assertJsonStructure([
+                'message',
+                'errors' => [
+                    'slug'
+                ]
+            ]);
     }
 
-    //public function testItDoesNotAddProductIfItIsAlreadyInCart()
+    public function testItDoesNotAddProductIfQuantityExceedsStock()
+    {
+        // Given
+        $cart = factory(Cart::class)->create();
+        $product = factory(Product::class)->create([
+            'quantity' => 999
+        ]);
+
+        // When
+        $response = $this->postJson(route('cart-products.store', [$cart]), [
+            'slug' => $product->slug,
+            'quantity' => 1000
+        ]);
+
+        // Then
+        $response->assertStatus(422)
+            ->assertJsonStructure([
+                'message',
+                'errors' => [
+                    'quantity'
+                ]
+            ]);
+    }
+
+    public function testItDoesNotAddProductIfSlugIsInvalid()
+    {
+        // Given
+        $cart = factory(Cart::class)->create();
+
+        // When
+        $response = $this->postJson(route('cart-products.store', [$cart]), [
+            'slug' => 'a-random-non-existent-product-slug',
+        ]);
+
+        // Then
+        $response->assertStatus(422)
+            ->assertJsonStructure([
+                'message',
+                'errors' => [
+                    'slug'
+                ]
+            ]);
+    }
+
+    /*******************************************************************
+    ****************************** PATCH *******************************
+    *******************************************************************/
 
     public function testItUpdatesProductInCart()
     {
@@ -78,7 +132,7 @@ class CartProductTest extends TestCase
         ]);
     }
 
-    public function testItDoesNotUpdateProductIfItDoesNotExist()
+    public function testItDoesNotUpdateProductIfSlugIsInvalid()
     {
         // Given
         $cart = factory(Cart::class)->create();
@@ -94,9 +148,22 @@ class CartProductTest extends TestCase
         $response->assertStatus(404);
     }
 
-    //public function testItDoesNotUpdateProductIfItIsNotInCart()
+    public function testItDoesNotUpdateProductIfItIsNotInCart()
+    {
+        // Given
+        $cart = factory(Cart::class)->create();
+        $product = factory(Product::class)->create();
 
-    /*public function testItDoesNotUpdateProductIfQuantityDidntChange()
+        // When
+        $response = $this->patchJson(route('cart-products.update', [$cart, $product]), [
+            'quantity' => 1
+        ]);
+
+        // Then
+        $response->assertStatus(404);
+    }
+
+    public function testItDoesNotUpdateProductIfQuantityDidntChange()
     {
         // Given
         $cart = factory(Cart::class)->create();
@@ -118,7 +185,37 @@ class CartProductTest extends TestCase
                     'quantity'
                 ]
             ]);
-    }*/
+    }
+
+    public function testItDoesNotUpdateProductIfQuantityExceedsStock()
+    {
+        // Given
+        $cart = factory(Cart::class)->create();
+        $product = factory(Product::class)->make([
+            'quantity' => 999
+        ]);
+        $cart->products()->save($product, [
+            'quantity' => 1
+        ]);
+
+        // When
+        $response = $this->patchJson(route('cart-products.update', [$cart, $product]), [
+            'quantity' => 1000
+        ]);
+
+        // Then
+        $response->assertStatus(422)
+            ->assertJsonStructure([
+                'message',
+                'errors' => [
+                    'quantity'
+                ]
+            ]);
+    }
+
+    /*******************************************************************
+    ***************************** DELETE *******************************
+    *******************************************************************/
 
     public function testItDeletesProductFromCart()
     {
@@ -140,5 +237,16 @@ class CartProductTest extends TestCase
         ]);
     }
 
-    //public function testItDoesNotDeleteProductIfItIsNotInCart()
+    public function testItDoesNotDeleteProductIfItIsNotInCart()
+    {
+        // Given
+        $cart = factory(Cart::class)->create();
+        $product = factory(Product::class)->create();
+
+        // When
+        $response = $this->deleteJson(route('cart-products.destroy', [$cart, $product]));
+
+        // Then
+        $response->assertStatus(404);
+    }
 }

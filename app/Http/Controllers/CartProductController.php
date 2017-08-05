@@ -6,6 +6,8 @@ use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use App\Http\Requests\CartProduct\{DestroyCartProduct, StoreCartProduct, UpdateCartProduct};
 
 class CartProductController extends Controller
 {
@@ -25,19 +27,12 @@ class CartProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Cart $cart)
+    public function store(StoreCartProduct $request, Cart $cart)
     {
-        // TODO check product not in cart
-        // TODO move logic to add to Cart.php
-        
-        $data = $this->validate($request, [
-            'slug' => 'required|exists:products,slug',
-            'quantity' => 'required|integer|min:1'
-        ]);
+        $productId = Product::whereSlug($request->slug)->value('id');
 
-        $productId = Product::whereSlug($request->slug)->select('id')->value('id');
         $cart->products()->attach(
-            $productId, array_only($data, 'quantity')
+            $productId, ['quantity' => $request->quantity]
         );
 
         return Response::json([], 201);
@@ -49,7 +44,7 @@ class CartProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show(Cart $cart, Product $product)
     {
         //
     }
@@ -61,17 +56,11 @@ class CartProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Cart $cart, Product $product)
+    public function update(UpdateCartProduct $request, Cart $cart, Product $product)
     {
-        // TODO: check product belongs to cart
-        // TODO: move logic to update to Cart.php
-        // TODO: check that quantity is not in $cart->pivot->quantity
-        
-        $data = $this->validate($request, [
-            'quantity' => 'required|integer|min:1|max:'.$product->quantity
+        $cart->products()->updateExistingPivot($product->id, [
+            'quantity' => $request->quantity
         ]);
-
-        $cart->products()->updateExistingPivot($product->id, $data);
 
         return Response::json([], 204);
     }
@@ -82,10 +71,8 @@ class CartProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Cart $cart, Product $product)
+    public function destroy(DestroyCartProduct $request, Cart $cart, Product $product)
     {
-        // TODO: check product belongs to cart
-        
         $cart->products()->detach($product->id);
 
         return Response::json([], 204);

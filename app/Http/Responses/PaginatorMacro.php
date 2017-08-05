@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Responses\Fractal;
+namespace App\Http\Responses;
 
 use League\Fractal\Manager;
-use App\Http\Responses\Macroable;
 use League\Fractal\Resource\Collection;
 use League\Fractal\TransformerAbstract;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 
-class PaginatorMacro implements Macroable
+class PaginatorMacro
 {
     /**
      * Fractal Manager.

@@ -6,7 +6,6 @@ use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use App\Http\Transformers\CartTransformer;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class CartController extends Controller
 {
