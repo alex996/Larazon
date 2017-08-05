@@ -25,7 +25,7 @@ Route::get('categories', 'CategoryController@index')->name('categories.index');
 // Carts
 Route::post('carts', 'CartController@store')->name('carts.store');
 
-// Cart Items
+// Cart Products
 Route::get('carts/{cart}/products', 'CartProductController@index')->name('cart-products.index');
 Route::post('carts/{cart}/products', 'CartProductController@store')->name('cart-products.store');
 Route::patch('carts/{cart}/products/{product}', 'CartProductController@update')->name('cart-products.update');
