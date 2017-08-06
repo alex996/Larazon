@@ -7,6 +7,6 @@ $factory->define(App\Models\Product::class, function (Faker $faker) {
         'name' => $faker->sentence(5),
         'description' => $faker->paragraph,
         'price' => $faker->randomFloat(2, 0, 1000000),
-        'quantity' => $faker->randomNumber,
+        'quantity' => $faker->numberBetween(99, 9999),
     ];
 });

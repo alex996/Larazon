@@ -4,7 +4,7 @@ Customer
 - View all products                   🗸
 - View product details                🗸
 - Add a product to a shopping cart    🗸
-- View products in the cart           
+- View products in the cart           🗸
 - Place an order
 - Register an account
 - View a list of orders

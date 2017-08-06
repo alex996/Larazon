@@ -47,7 +47,7 @@ class CartProductTest extends TestCase
         // When
         $response = $this->postJson(route('cart-products.store', [$cart]), [
             'slug' => $product->slug,
-            'quantity' => 1
+            'quantity' => 2
         ]);
 
         // Then
@@ -258,8 +258,8 @@ class CartProductTest extends TestCase
     {
         // Given
         $cart = factory(Cart::class)->create();
-        $products = factory(Product::class, 10)
-            ->make()->each(function($product) use ($cart) {
+        $products = factory(Product::class, 10)->make()
+            ->each(function($product) use ($cart) {
                 $cart->products()->save($product, [
                     'quantity' => 1
                 ]);
