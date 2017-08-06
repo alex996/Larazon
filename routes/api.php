@@ -30,3 +30,9 @@ Route::get('carts/{cart}/products', 'CartProductController@index')->name('cart-p
 Route::post('carts/{cart}/products', 'CartProductController@store')->name('cart-products.store');
 Route::patch('carts/{cart}/products/{product}', 'CartProductController@update')->name('cart-products.update');
 Route::delete('carts/{cart}/products/{product}', 'CartProductController@destroy')->name('cart-products.destroy');
+
+// Users
+Route::post('users', 'UserController@store')->name('users.store');
+
+// Auth
+Route::post('auth/token', 'Auth\TokenController@issue')->name('auth-token.issue');
