@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Auth;
 
+use JWTAuth;
 use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -29,8 +30,41 @@ class TokenTest extends TestCase
         $response->assertStatus(200)
             ->assertJsonStructure([
                 'token'
-            ]);        
+            ]);
     }
 
-    //public function testItDoesNotIssueTokenWhenLoggedIn
+    public function testItDoesNotIssueTokenWhenGivenInvalidCredentials()
+    {
+        // Given
+        $user = factory(User::class)->create();
+
+        // When
+        $response = $this->postJson(route('auth-token.issue'), [
+            'email' => $user->email,
+            'password' => 'a-random-invalid-password'
+        ]);
+
+        // Then
+        $response->assertStatus(401)
+            ->assertJsonStructure([
+                'message'
+            ]);
+    }
+
+    /*public function testItDoesNotIssueTokenWhenLoggedIn()
+    {
+        // Given
+        $password = 'secret';
+        $user = factory(User::class)->create();
+        JWTAuth::setToken(JWTAuth::fromUser($user));
+
+        // When
+        $response = $this->postJson(route('auth-token.issue'), [
+            'email' => $user->email,
+            'password' => $password
+        ]);
+
+        // Then
+        dd($response);
+    }*/
 }

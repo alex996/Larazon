@@ -35,11 +35,27 @@ class UserTest extends TestCase
 
         // Then
         $response->assertStatus(201);
-        $this->assertDatabaseHas('users', [
-            'name' => $name,
-            'email' => $email
-        ]);
+        $this->assertDatabaseHas('users', compact('name', 'email'));
     }
 
     //public function testItDoesNotCreateUserWhenLoggedIn()
+    
+    public function testItDoesNotCreateUserIfValidationFails()
+    {
+        // When
+        $response = $this->postJson(route('users.store'), [
+            'name' => null,
+            'email' => 'random-string',
+            'password' => 'short'
+        ]);
+
+        // Then
+        $response->assertStatus(422)
+            ->assertJsonStructure([
+                'message',
+                'errors' => [
+                    'name', 'email', 'password'
+                ]
+            ]);
+    }
 }

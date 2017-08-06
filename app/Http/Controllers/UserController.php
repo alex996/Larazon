@@ -10,23 +10,12 @@ use Illuminate\Support\Facades\Response;
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Create a new controller instance.
      *
-     * @return \Illuminate\Http\Response
+     * @return  @void
      */
-    public function index()
-    {
+    public function __construct() {
         $this->middleware('guest')->only('store');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -43,11 +32,9 @@ class UserController extends Controller
             'password' => 'required|string|min:6|confirmed',
         ]);
 
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password'])
-        ]);
+        $data['password'] = Hash::make($data['password']);
+
+        User::create($data);
 
         return Response::json([], 201);
     }
