@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Response;
 use Tymon\JWTAuth\Exceptions\JWTException;
-use Symfony\Component\HttpKernel\Exception\{HttpException, UnauthorizedHttpException};
+use Illuminate\Validation\ValidationException;
 
 class TokenController extends Controller
 {
@@ -23,12 +23,10 @@ class TokenController extends Controller
             'password' => 'required|string'
         ]);
 
-        try {
-            if (! $token = JWTAuth::attempt($credentials)) {
-                throw new UnauthorizedHttpException;
-            }
-        } catch (JWTException $e) {
-            throw new HttpException;
+        if (! $token = JWTAuth::attempt($credentials)) {
+            throw ValidationException::withMessages([
+                'email' => [trans('auth.failed')],
+            ]);
         }
 
         return Response::json(compact('token'));
