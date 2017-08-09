@@ -22,7 +22,7 @@ class GeoRepository
         return implode(',', $this->getCountryKeys());
     }
 
-    public function getStates()
+    public function getStatesByCountry()
     {
         return [
             'US' => [
@@ -96,9 +96,14 @@ class GeoRepository
         ];
     }
 
+    public function getStates(string $country)
+    {
+        return array_get($this->getStatesByCountry(), $country);
+    }
+
     public function getStateKeys(string $country)
     {
-        return array_keys(array_get($this->getStates(), $country));
+        return array_keys($this->getStates($country));
     }
 
     public function getStateKeysWithCommas(string $country)
