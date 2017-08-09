@@ -86,7 +86,7 @@ class GeoRepository
                 'NL' => 'Newfoundland and Labrador',
                 'NS' => 'Nova Scotia',
                 'NT' => 'Northwest Territories',                
-                'NU' => 'Nunavut'
+                'NU' => 'Nunavut',
                 'ON' => 'Ontario',
                 'PE' => 'Prince Edward Island',
                 'QC' => 'Quebec',

@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Address;
 use Illuminate\Http\Request;
-use App\Repositories\GeoRepository;
+use Illuminate\Support\Facades\Response;
+use App\Http\Requests\Address\StoreAddress;
 
 class AddressController extends Controller
 {
@@ -13,7 +14,7 @@ class AddressController extends Controller
      *
      * @return  @void
      */
-    public function __construct(GeoRepository $geo)
+    public function __construct()
     {
         $this->middleware('jwt.auth');
     }
@@ -34,17 +35,13 @@ class AddressController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreAddress $request)
     {
-        $this->validate($request, [
-            'type' => 'required|string|in:shipping,billing',
-            'street' => 'required|string|max:255',
-            'street_2' => 'nullable|string|max:255',
-            'state' => 'required|in:',
-            'city' => 'required|string|max:255',
-            'zip' => 'required|string|max:6|alphanum',
-            'country' => 'required|in:US,CA'
-        ]);
+        $request->user()->addresses()->create(
+            $request->all()
+        );
+
+        return Response::created('Address successfully created.');
     }
 
     /**

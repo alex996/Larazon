@@ -21,10 +21,10 @@ class CreateAddressesTable extends Migration
             ]);
             $table->string('street');
             $table->string('street_2')->nullable();
-            $table->char('state', 2);
             $table->string('city');
-            $table->string('zip');
+            $table->char('state', 2);                    
             $table->char('country', 2);
+            $table->string('zip');
             $table->timestamps();
         });
     }
