@@ -5,12 +5,14 @@ Customer
 - View product details                🗸
 - Add a product to a shopping cart    🗸
 - View products in the cart           🗸
+- Manage shipping addresses
+- Manage payment options
 - Place an order
-- Register an account
+- Register an account                 🗸
 - View a list of orders
 - View all product categories
 - Filter and search products
-- Log in to your account
+- Log in to your account              🗸
 
 Administrator
 - Log in to the system
