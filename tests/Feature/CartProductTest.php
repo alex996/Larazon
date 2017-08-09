@@ -124,7 +124,7 @@ class CartProductTest extends TestCase
         ]);
 
         // Then
-        $response->assertStatus(204);
+        $response->assertStatus(200);
         $this->assertDatabaseHas('cart_product', [
             'cart_id' => $cart->id,
             'product_id' => $product->id,
@@ -230,7 +230,7 @@ class CartProductTest extends TestCase
         $response = $this->deleteJson(route('cart-products.destroy', [$cart, $product]));
 
         // Then
-        $response->assertStatus(204);
+        $response->assertStatus(200);
         $this->assertDatabaseMissing('cart_product', [
             'cart_id' => $cart->id,
             'product_id' => $product->id

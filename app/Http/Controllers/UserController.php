@@ -36,7 +36,7 @@ class UserController extends Controller
 
         User::create($data);
 
-        return Response::json([], 201);
+        return Response::created('User successfully created.');
     }
 
     /**

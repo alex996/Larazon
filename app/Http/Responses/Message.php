@@ -4,7 +4,7 @@ namespace App\Http\Responses;
 
 use Illuminate\Contracts\Routing\ResponseFactory;
 
-class Success
+class Message
 {
     /**
      * Bind the macro to the Response factory.
@@ -14,7 +14,7 @@ class Success
      */
     public function bind(ResponseFactory $factory)
     {
-        $factory->macro('success', function (string $message, $status = 200, array $headers = [], $options = 0) use ($factory) {
+        $factory->macro('message', function (string $message, $status = 200, array $headers = [], $options = 0) use ($factory) {
             return $factory->json([
                 'message' => $message
             ], $status, $headers, $options);

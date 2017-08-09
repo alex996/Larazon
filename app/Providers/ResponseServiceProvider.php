@@ -18,8 +18,8 @@ class ResponseServiceProvider extends ServiceProvider
         Responses\Fractal\Collection::class,
         Responses\Fractal\Paginator::class,
         Responses\Created::class,
+        Responses\Message::class,
         Responses\NoContent::class,
-        Responses\Success::class,
     ];
 
     /**

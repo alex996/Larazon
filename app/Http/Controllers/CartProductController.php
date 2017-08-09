@@ -34,7 +34,7 @@ class CartProductController extends Controller
             $productId, ['quantity' => $request->quantity]
         );
 
-        return Response::json([], 201);
+        return Response::created('Product successfully added to the cart.');
     }
 
     /**
@@ -50,7 +50,7 @@ class CartProductController extends Controller
             'quantity' => $request->quantity
         ]);
 
-        return Response::json([], 204);
+        return Response::message('Product quantity successfully updated in the cart.');
     }
 
     /**
@@ -63,6 +63,6 @@ class CartProductController extends Controller
     {
         $cart->products()->detach($product->id);
 
-        return Response::json([], 204);
+        return Response::message('Product successfully removed from the cart.');
     }
 }
