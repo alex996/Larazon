@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -27,6 +28,30 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        //
+        $this->interceptJwtEvents();
+    }
+
+    /**
+     * Intercepts the JWT events and overwrites error responses.
+     * 
+     * @return void
+     */
+    protected function interceptJwtEvents()
+    {
+        Event::listen('tymon.jwt.absent', function () {
+            return Response::make(['message' => 'Token Not Provided.'], 400);
+        });
+
+        Event::listen('tymon.jwt.expired', function () {
+            return Response::make(['message' => 'Token Expired.'], 401);
+        });
+
+        Event::listen('tymon.jwt.invalid', function () {
+            return Response::make(['message' => 'Token Invalid.'], 401);
+        });
+
+        Event::listen('tymon.jwt.user_not_found', function () {
+            return Response::make(['message' => 'Token Expired.'], 404);
+        });
     }
 }
