@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Responses;
+namespace App\Http\Responses\Fractal;
 
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
@@ -8,7 +8,7 @@ use League\Fractal\TransformerAbstract;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 
-class PaginatorMacro
+class Paginator
 {
     /**
      * Fractal Manager.

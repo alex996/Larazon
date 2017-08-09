@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Responses;
+namespace App\Http\Responses\Fractal;
 
 use League\Fractal\Manager;
-use League\Fractal\Resource\Collection;
+use League\Fractal\Resource\Item as FractalItem;
 use League\Fractal\TransformerAbstract;
 use Illuminate\Contracts\Routing\ResponseFactory;
 
-class CollectionMacro
+class Item
 {
     /**
      * Fractal Manager.
@@ -36,8 +36,8 @@ class CollectionMacro
     {
         $fractal = $this->fractal;
 
-        $factory->macro('collection', function ($collection, TransformerAbstract $transformer, $status = 200, array $headers = []) use ($fractal, $factory) {
-            $resource = new Collection($collection, $transformer);
+        $factory->macro('item', function ($item, TransformerAbstract $transformer, $status = 200, array $headers = []) use ($fractal, $factory) {
+            $resource = new FractalItem($item, $transformer);
 
             return $factory->json(
                 $fractal->createData($resource)->toArray(),

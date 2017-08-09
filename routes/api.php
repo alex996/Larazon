@@ -36,3 +36,6 @@ Route::post('users', 'UserController@store')->name('users.store');
 
 // Auth
 Route::post('auth/token', 'Auth\TokenController@issue')->name('auth-token.issue');
+
+// Addresses
+Route::post('addresses', 'AddressController@store')->name('addresses.store');

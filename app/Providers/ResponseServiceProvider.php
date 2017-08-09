@@ -14,9 +14,12 @@ class ResponseServiceProvider extends ServiceProvider
      * @var array
      */
     protected $macros = [
-        Responses\ItemMacro::class,
-        Responses\CollectionMacro::class,
-        Responses\PaginatorMacro::class,
+        Responses\Fractal\Item::class,
+        Responses\Fractal\Collection::class,
+        Responses\Fractal\Paginator::class,
+        Responses\Created::class,
+        Responses\NoContent::class,
+        Responses\Success::class,
     ];
 
     /**
