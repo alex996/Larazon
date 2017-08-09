@@ -10,9 +10,13 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class TokenController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('guest');
+    /**
+     * Create a new controller instance.
+     *
+     * @return  @void
+     */
+    public function __construct() {
+        $this->middleware('jwt.guest')->only('issue');
     }
 
     public function issue(Request $request)

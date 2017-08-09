@@ -2,7 +2,9 @@
 
 namespace Tests\Feature;
 
+use JWTAuth;
 use Tests\TestCase;
+use App\Models\User;
 use Faker\Generator as Faker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -38,8 +40,6 @@ class UserTest extends TestCase
         $this->assertDatabaseHas('users', compact('name', 'email'));
     }
 
-    //public function testItDoesNotCreateUserWhenLoggedIn()
-    
     public function testItDoesNotCreateUserIfValidationFails()
     {
         // When
@@ -57,5 +57,19 @@ class UserTest extends TestCase
                     'name', 'email', 'password'
                 ]
             ]);
+    }
+
+    public function testItDoesNotCreateUserWhenLoggedIn()
+    {
+        // Given
+        $token = JWTAuth::fromUser(factory(User::class)->create());
+
+        // When
+        $response = $this->postJson(route('users.store'), [], [
+            'Authorization' => 'Bearer '.$token
+        ]);
+
+        // Then
+        $response->assertStatus(403);
     }
 }

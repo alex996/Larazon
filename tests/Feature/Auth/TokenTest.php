@@ -51,20 +51,17 @@ class TokenTest extends TestCase
             ]);
     }
 
-    /*public function testItDoesNotIssueTokenWhenLoggedIn()
+    public function testItDoesNotIssueTokenWhenLoggedIn()
     {
         // Given
-        $password = 'secret';
-        $user = factory(User::class)->create();
-        JWTAuth::setToken(JWTAuth::fromUser($user));
+        $token = JWTAuth::fromUser(factory(User::class)->create());
 
         // When
-        $response = $this->postJson(route('auth-token.issue'), [
-            'email' => $user->email,
-            'password' => $password
+        $response = $this->postJson(route('auth-token.issue'), [], [
+            'Authorization' => 'Bearer '.$token
         ]);
 
         // Then
-        dd($response);
-    }*/
+        $response->assertStatus(403);
+    }
 }

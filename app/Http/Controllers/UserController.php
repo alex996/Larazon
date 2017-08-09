@@ -15,7 +15,7 @@ class UserController extends Controller
      * @return  @void
      */
     public function __construct() {
-        $this->middleware('guest')->only('store');
+        $this->middleware('jwt.guest')->only('store');
     }
 
     /**
