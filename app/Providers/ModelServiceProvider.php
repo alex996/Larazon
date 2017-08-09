@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Models\{Cart, Category, Product};
-use App\Observers\{CartObserver, CategoryObserver, ProductObserver};
+use App\Models\{Cart, Category, Product, User};
+use App\Observers\{CartObserver, CategoryObserver, ProductObserver, UserObserver};
 
 class ModelServiceProvider extends ServiceProvider
 {
@@ -20,6 +20,8 @@ class ModelServiceProvider extends ServiceProvider
         Category::observe(CategoryObserver::class);
 
         Cart::observe(CartObserver::class);
+
+        User::observe(UserObserver::class);
     }
 
     /**
