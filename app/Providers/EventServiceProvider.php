@@ -51,7 +51,7 @@ class EventServiceProvider extends ServiceProvider
         });
 
         Event::listen('tymon.jwt.user_not_found', function () {
-            return Response::make(['message' => 'Token Expired.'], 404);
+            return Response::make(['message' => 'User Not Found.'], 404);
         });
     }
 }
