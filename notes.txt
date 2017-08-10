@@ -5,7 +5,7 @@ Customer
 - View product details                🗸
 - Add a product to a shopping cart    🗸
 - View products in the cart           🗸
-- Manage shipping addresses
+- Manage shipping addresses           🗸
 - Manage payment options
 - Place an order
 - Register an account                 🗸

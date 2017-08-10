@@ -48,7 +48,7 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        // TODO: don't forget to authorize that $user->is($userThatsBeingUpdated)
     }
 
     /**
