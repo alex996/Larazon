@@ -12,6 +12,11 @@ class GeoRepository
         ];
     }
 
+    public function getCountryName(string $key)
+    {
+        return array_get($key, $this->getCountries());
+    }
+
     public function getCountryKeys()
     {
         return array_keys($this->getCountries());
@@ -99,6 +104,11 @@ class GeoRepository
     public function getStates(string $country)
     {
         return array_get($this->getStatesByCountry(), $country);
+    }
+
+    public function getStateName(string $state)
+    {
+        return array_get($state, array_flatten($this->getStatesByCountry()));
     }
 
     public function getStateKeys(string $country)

@@ -51,4 +51,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Address::class);
     }
+
+    public function owns($entity)
+    {
+        return $this->id == $entity->user_id;
+    }
 }

@@ -39,3 +39,5 @@ Route::post('auth/token', 'Auth\TokenController@issue')->name('auth-token.issue'
 
 // Addresses
 Route::post('addresses', 'AddressController@store')->name('addresses.store');
+Route::delete('addresses/{address}', 'AddressController@destroy')->name('addresses.destroy');
+Route::get('addresses', 'AddressController@index')->name('addresses.index');

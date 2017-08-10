@@ -6,6 +6,7 @@ use App\Models\Address;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use App\Http\Requests\Address\StoreAddress;
+use App\Http\Transformers\AddressTransformer;
 
 class AddressController extends Controller
 {
@@ -24,9 +25,11 @@ class AddressController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, AddressTransformer $transformer)
     {
-        //
+        $addresses = $request->user()->addresses()->paginate(50);
+
+        return Response::paginator($addresses, $transformer);
     }
 
     /**
@@ -45,36 +48,17 @@ class AddressController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Address  $address
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Address $address)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Address  $address
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Address $address)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Address  $address
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Address $address)
+    public function destroy(Request $request, Address $address)
     {
-        //
+        $this->authorize('delete', $address);
+
+        $address->delete();
+
+        return Response::message('Address successfully deleted.');
     }
 }
