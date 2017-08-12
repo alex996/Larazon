@@ -29,10 +29,10 @@ class StoreAddress extends FormRequest
             'street' => 'required|string|max:255',
             'street_2' => 'nullable|string|max:255',            
             'city' => 'required|string|max:255',
-            'state' => 'required|in:'.$geo->getStateKeysWithCommas(
+            'state' => 'required|in:'.$geo->getStateCodesWithCommas(
                 $this->get('country', 'US')
             ),
-            'country' => 'required|in:'.$geo->getCountryKeysWithCommas(),
+            'country' => 'required|in:'.$geo->getCountryCodesWithCommas(),
             'zip' => 'required|string|max:6|alphanum',    
         ];
     }

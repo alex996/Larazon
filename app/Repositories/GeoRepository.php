@@ -12,19 +12,19 @@ class GeoRepository
         ];
     }
 
-    public function getCountryName(string $key)
+    public function getCountryName(string $code)
     {
-        return array_get($key, $this->getCountries());
+        return array_get($this->getCountries(), $code);
     }
 
-    public function getCountryKeys()
+    public function getCountryCodes()
     {
         return array_keys($this->getCountries());
     }
 
-    public function getCountryKeysWithCommas()
+    public function getCountryCodesWithCommas()
     {
-        return implode(',', $this->getCountryKeys());
+        return implode(',', $this->getCountryCodes());
     }
 
     public function getStatesByCountry()
@@ -106,18 +106,18 @@ class GeoRepository
         return array_get($this->getStatesByCountry(), $country);
     }
 
-    public function getStateName(string $state)
+    public function getStateName(string $code)
     {
-        return array_get($state, array_flatten($this->getStatesByCountry()));
+        return array_get(array_collapse($this->getStatesByCountry()), $code);
     }
 
-    public function getStateKeys(string $country)
+    public function getStateCodes(string $country)
     {
         return array_keys($this->getStates($country));
     }
 
-    public function getStateKeysWithCommas(string $country)
+    public function getStateCodesWithCommas(string $country)
     {
-        return implode(',', $this->getStateKeys($country));
+        return implode(',', $this->getStateCodes($country));
     }
 }
