@@ -25,8 +25,8 @@ class StoreAddress extends FormRequest
     public function rules(GeoRepository $geo)
     {
         return [
-            'street' => 'required|string|max:255',
-            'street_2' => 'nullable|string|max:255',            
+            'line_1' => 'required|string|max:255',
+            'line_2' => 'nullable|string|max:255',            
             'city' => 'required|string|max:255',
             'state' => 'required|in:'.$geo->getStateCodesWithCommas(
                 $this->get('country', 'US')

@@ -24,8 +24,8 @@ class AddressTransformer extends TransformerAbstract
     public function transform(Address $address)
     {
         return [
-            'street' => $address->street,
-            'street_2' => $address->street_2,
+            'line_1' => $address->line_1,
+            'line_2' => $address->line_2,
             'city' => $address->city,
             'state' => $address->state,
             'state_pretty' => $this->geo->getStateName($address->state),

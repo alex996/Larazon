@@ -12,7 +12,7 @@ class Address extends Model
      * @var array
      */
     protected $fillable = [
-        'street', 'street_2', 'city', 'state', 'country', 'zip', 
+        'line_1', 'line_2', 'city', 'state', 'country', 'zip', 
     ];
 
     public function addressable()

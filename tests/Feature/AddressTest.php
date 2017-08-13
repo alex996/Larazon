@@ -125,7 +125,7 @@ class AddressTest extends TestCase
         $response->assertStatus(200)
             ->assertJsonStructure([
                 'data' => [
-                    ['street', 'street_2', 'city', 'state', 'state_pretty', 'country', 'country_pretty', 'zip']
+                    ['line_1', 'line_2', 'city', 'state', 'state_pretty', 'country', 'country_pretty', 'zip']
                 ],
                 'meta' => [
                     'pagination' => [
