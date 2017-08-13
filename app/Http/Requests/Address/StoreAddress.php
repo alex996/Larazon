@@ -32,7 +32,7 @@ class StoreAddress extends FormRequest
                 $this->get('country', 'US')
             ),
             'country' => 'required|in:'.$geo->getCountryCodesWithCommas(),
-            'zip' => 'required|string|max:6|alphanum',    
+            'zip' => 'required|string|max:6|alphanum',
         ];
     }
 }

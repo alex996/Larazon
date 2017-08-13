@@ -36,3 +36,8 @@ Administrator
       users
         show
   resource('users')
+
+
+*** links ***
+Stripe quickstart https://stripe.com/docs/quickstart
+Stripe.js https://stripe.com/docs/stripe.js

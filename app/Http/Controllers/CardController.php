@@ -4,9 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Card;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class CardController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return  @void
+     */
+    public function __construct()
+    {
+        $this->middleware('jwt.auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -25,25 +36,33 @@ class CardController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request. [
+        $this->validate($request, [
             'token' => 'required|string|max:255'
         ]);
 
-        $user = $request->user;
+        $user = $request->user();
+        $token = $request->token;
 
         if ($user->hasStripeId()) {
-
+            $user->updateCard($token);
         } else {
-            $customer = $user->createAsStripeCustomer(
-                $request->token
+            $user->createAsStripeCustomer($token);
+           /* $customer = \Stripe\Customer::create(
+                [
+                    'email' => $user->email,
+                    'source' => $token
+                ], config('services.stripe.secret')
             );
+
+            $user->stripe_id = $customer->id;
+            $card = $customer->sources->data[0];
+            $user->card_brand = $card['brand'];
+            $user->card_last_four = $card['last4'];
+            $user->save();*/
+            //$user->brand
         }
 
-        
-        
-
-        // Save the card with address
-        // 
+        return Response::message('Card successfully added', 201);
     }
 
     /**
