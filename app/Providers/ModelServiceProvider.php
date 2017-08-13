@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Models\{Cart, Category, Product, User};
 use Illuminate\Database\Eloquent\Relations\Relation;
+use App\Models\{Card, Cart, Category, Product, User};
 use App\Observers\{CartObserver, CategoryObserver, ProductObserver, UserObserver};
 
 class ModelServiceProvider extends ServiceProvider
@@ -30,6 +30,7 @@ class ModelServiceProvider extends ServiceProvider
     {
         Relation::morphMap([
             'users' => User::class,
+            'cards' => Card::class,
         ]);
     }
 
