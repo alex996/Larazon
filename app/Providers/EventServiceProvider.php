@@ -39,19 +39,19 @@ class EventServiceProvider extends ServiceProvider
     protected function interceptJwtEvents()
     {
         Event::listen('tymon.jwt.absent', function () {
-            return Response::make(['message' => 'Token Not Provided.'], 400);
+            return Response::message('Token Not Provided.', 400);
         });
 
         Event::listen('tymon.jwt.expired', function () {
-            return Response::make(['message' => 'Token Expired.'], 401);
+            return Response::message('Token Expired.', 401);
         });
 
         Event::listen('tymon.jwt.invalid', function () {
-            return Response::make(['message' => 'Token Invalid.'], 401);
+            return Response::message('Token Invalid.', 401);
         });
 
         Event::listen('tymon.jwt.user_not_found', function () {
-            return Response::make(['message' => 'User Not Found.'], 404);
+            return Response::message('User Not Found.', 404);
         });
     }
 }

@@ -67,8 +67,8 @@ class AddressTest extends TestCase
     public function testItDeletesAddress()
     {
         // Given
-        $this->user->addresses()->save(
-            $address = factory(Address::class)->make()
+        $address = $this->user->addresses()->save(
+            factory(Address::class)->make()
         );
 
         // When
@@ -87,9 +87,10 @@ class AddressTest extends TestCase
     public function testItDoesNotDeleteAddressIfUserDoesntOwnIt()
     {
         // Given
-        $address = factory(Address::class)->create([
-            'user_id' => 999
-        ]);
+        $otherUser = factory(User::class)->create();
+        $address = $otherUser->addresses()->save(
+            factory(Address::class)->make()
+        );
 
         // When
         $response = $this->deleteJson(route('addresses.destroy', [$address]), [], [

@@ -49,11 +49,11 @@ class User extends Authenticatable
 
     public function addresses()
     {
-        return $this->hasMany(Address::class);
+        return $this->morphMany(Address::class, 'addressable');
     }
 
-    public function owns($entity)
+    /*public function owns($entity)
     {
         return $this->id == $entity->user_id;
-    }
+    }*/
 }

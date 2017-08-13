@@ -20,6 +20,6 @@ class AddressPolicy
      */
     public function delete(User $user, Address $address)
     {
-        return $user->owns($address);
+        return $user->id == $address->addressable_id && $address->addressable_type = 'users';
     }
 }

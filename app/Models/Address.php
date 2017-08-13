@@ -14,4 +14,9 @@ class Address extends Model
     protected $fillable = [
         'street', 'street_2', 'city', 'state', 'country', 'zip', 
     ];
+
+    public function addressable()
+    {
+        return $this->morphTo();
+    }
 }
