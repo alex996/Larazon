@@ -24,7 +24,6 @@ class AddressTransformer extends TransformerAbstract
     public function transform(Address $address)
     {
         return [
-            'type' => $address->type,
             'street' => $address->street,
             'street_2' => $address->street_2,
             'city' => $address->city,

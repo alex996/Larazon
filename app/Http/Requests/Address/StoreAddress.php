@@ -25,7 +25,6 @@ class StoreAddress extends FormRequest
     public function rules(GeoRepository $geo)
     {
         return [
-            'type' => 'required|string|in:shipping,billing',
             'street' => 'required|string|max:255',
             'street_2' => 'nullable|string|max:255',            
             'city' => 'required|string|max:255',

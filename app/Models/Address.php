@@ -12,6 +12,6 @@ class Address extends Model
      * @var array
      */
     protected $fillable = [
-        'type', 'street', 'street_2', 'city', 'state', 'country', 'zip', 
+        'street', 'street_2', 'city', 'state', 'country', 'zip', 
     ];
 }

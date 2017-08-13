@@ -4,7 +4,6 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Models\Address::class, function (Faker $faker) {
     return [
-        'type' => $faker->randomElement(['shipping', 'billing']),
         'street' => $faker->buildingNumber . ' '. $faker->streetName,
         'street_2' => $faker->secondaryAddress,
         'city' => $faker->city,
