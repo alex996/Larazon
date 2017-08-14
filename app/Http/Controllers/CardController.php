@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Card;
+use Stripe\Customer;
 use Illuminate\Http\Request;
+use Stripe\Error\Base as StripeException;
 use Illuminate\Support\Facades\Response;
 
 class CardController extends Controller
@@ -43,23 +45,14 @@ class CardController extends Controller
         $user = $request->user();
         $token = $request->token;
 
-        if ($user->hasStripeId()) {
-            $user->updateCard($token);
-        } else {
-            $user->createAsStripeCustomer($token);
-           /* $customer = \Stripe\Customer::create(
-                [
-                    'email' => $user->email,
-                    'source' => $token
-                ], config('services.stripe.secret')
-            );
-
-            $user->stripe_id = $customer->id;
-            $card = $customer->sources->data[0];
-            $user->card_brand = $card['brand'];
-            $user->card_last_four = $card['last4'];
-            $user->save();*/
-            //$user->brand
+        try {
+            if ($user->hasStripeId()) {
+                $user->updateCustomerWithCard($token);
+            } else {
+                $user->createCustomerWithCard($token);
+            }
+        } catch(StripeException $e) {
+            return Response::message($e->getMessage(), 400);
         }
 
         return Response::message('Card successfully added', 201);

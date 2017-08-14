@@ -3,21 +3,13 @@
 namespace Tests\Feature;
 
 use JWTAuth;
-use Stripe\Token;
-use Stripe\Stripe;
 use Tests\TestCase;
 use App\Models\User;
-use App\Models\Address;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CardTest extends TestCase
 {
-    public function testEx()
-    {
-        $this->assertTrue(true);
-    }
-
-    /*use RefreshDatabase;
+    use RefreshDatabase;
 
     protected $user;
 
@@ -27,16 +19,62 @@ class CardTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = factory(User::class)->create([
-            'name' => 'Alex Jones'
-        ]);
+        $this->user = factory(User::class)->create();
 
         $this->token = JWTAuth::fromUser($this->user);
-
-        Stripe::setApiKey(config('services.stripe.key'));
     }
 
-    public function testItCreatesCustomerWithCardDetails()
+    public function testItCreatesCustomerWithNewCard()
+    {
+        // Given
+        $token = $this->getStripeToken();
+
+        // When
+        $response = $this->postJson(route('cards.store'), [
+            'token' => $token->id
+        ], [
+            'Authorization' => 'Bearer '.$this->token
+        ]);
+
+        // Then
+        $response->assertStatus(201);
+
+        $user = $this->user = $this->user->fresh();
+
+        $this->assertTrue($user->hasStripeId());
+        $this->assertTrue($user->hasCardOnFile());
+    }
+
+    /*public function testItUpdatesCustomerByAddingNewCard()
+    {
+        // Given
+        $user = $this->user;
+        $token = $this->getMasterCardToken();
+
+        // When
+        $response = $this->postJson(route('cards.store'), [
+            'token' => $token->id
+        ], [
+            'Authorization' => 'Bearer '.$this->token
+        ]);
+        
+        // Then
+        $response->assertStatus(201);
+
+        // Local DB
+        //$this->assertEquals($user->cards()->count(), 2);
+        $this->assertDatabaseHas('cards', [
+            'stripe_id' => $token->card->id,
+            'user_id' => $user->id,
+            'last4' => $token->card->last4,
+        ]);
+dd($user);
+        // Stripe
+        $customer = $user->asStripeCustomer();
+        dd($customer);
+    }*/
+
+    /*public function testItCreatesCustomerWithCardDetails()
     {
         // Given
         $token = $this->getStripeToken();
@@ -50,26 +88,6 @@ class CardTest extends TestCase
 
         // Then
         $response->assertStatus(201);
-    }
-
-    protected function getStripeToken()
-    {
-        $address = factory(Address::class)->make();
-
-        return Token::create([
-            'card' => [
-                'number' => '4242424242424242',
-                'exp_month' => 1,
-                'exp_year' => 2019,
-                'cvc' => 123,
-                'address_line1' => $address->street,
-                'address_line2' => $address->street_2,
-                'address_city' => $address->city,
-                'address_state' => $address->state,
-                'address_country' => $address->country,
-                'address_zip' => $address->zip,
-            ]
-        ]);
     }*/
 
     /*public function testItCreatesCustomerWithCardDetails()

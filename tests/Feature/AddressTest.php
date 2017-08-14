@@ -20,9 +20,7 @@ class AddressTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = factory(User::class)->create([
-            'name' => 'Alex Jones'
-        ]);
+        $this->user = factory(User::class)->create();
 
         $this->token = JWTAuth::fromUser($this->user);
     }
