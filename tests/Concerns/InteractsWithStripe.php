@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Tests\Concerns;
 
 use Stripe\Token;
 use App\Models\{Address, Card};
