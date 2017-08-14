@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Models\Stripe\{ActsAsCustomer, HasCreditCards};
+use App\Models\Billing\{ActsAsCustomer, HasCreditCards};
 
 class User extends Authenticatable
 {
@@ -52,8 +52,6 @@ class User extends Authenticatable
     {
         return $this->morphMany(Address::class, 'addressable');
     }
-
-
 
     /*public function owns($entity)
     {

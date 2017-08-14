@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Stripe;
+namespace App\Models\Billing;
 
 use Stripe\Customer;
 
