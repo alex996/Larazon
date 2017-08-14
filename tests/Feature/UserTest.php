@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use JWTAuth;
 use Tests\TestCase;
 use App\Models\User;
 use Faker\Generator as Faker;
@@ -62,7 +61,7 @@ class UserTest extends TestCase
     public function testItDoesNotCreateUserWhenLoggedIn()
     {
         // Given
-        $token = JWTAuth::fromUser(factory(User::class)->create());
+        $token = $this->getJwtToken();
 
         // When
         $response = $this->postJson(route('users.store'), [], [

@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Auth;
 
-use JWTAuth;
 use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -54,7 +53,7 @@ class TokenTest extends TestCase
     public function testItDoesNotIssueTokenWhenLoggedIn()
     {
         // Given
-        $token = JWTAuth::fromUser(factory(User::class)->create());
+        $token = $this->getJwtToken();
 
         // When
         $response = $this->postJson(route('auth-token.issue'), [], [

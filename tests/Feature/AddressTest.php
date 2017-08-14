@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use JWTAuth;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Address;
@@ -22,7 +21,7 @@ class AddressTest extends TestCase
 
         $this->user = factory(User::class)->create();
 
-        $this->token = JWTAuth::fromUser($this->user);
+        $this->token = $this->getJwtToken($this->user);
     }
 
     /*******************************************************************

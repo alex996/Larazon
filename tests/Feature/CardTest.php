@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CardTest extends TestCase
 {
-    use RefreshDatabase;
+    /*use RefreshDatabase;
 
     protected $user;
 
@@ -43,7 +43,7 @@ class CardTest extends TestCase
 
         $this->assertTrue($user->hasStripeId());
         $this->assertTrue($user->hasCardOnFile());
-    }
+    }*/
 
     /*public function testItUpdatesCustomerByAddingNewCard()
     {
