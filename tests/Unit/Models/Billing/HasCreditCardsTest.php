@@ -37,8 +37,7 @@ class HasCreditCardsTest extends TestCase
         $token = $this->getStripeToken();
         $stripeCard = $token->card;
         // When
-        $this->user->addCard($token->card);
-        $card = $this->user->cards()->first();
+        $card = $this->user->addCard($token->card);
         // Then
         $this->assertNotEmpty($card);
         $this->assertDatabaseHas('cards', [

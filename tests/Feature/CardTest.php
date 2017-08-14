@@ -31,15 +31,6 @@ class CardTest extends TestCase
 
         $this->assertTrue($user->hasStripeId());
         $this->assertTrue($user->hasCardOnFile());
-        
-                
-        // 1. it creates Stripe customer
-        // 2. it saves stripe_id on user
-        // 3. it adds card to Stripe customer
-        // 4. it saves card locally with billing addr.
-
-        //$this->assertTrue($user->hasStripeId());
-        //$this->assertTrue($user->hasCardOnFile());
     }
 
     /*public function testItUpdatesCustomerByAddingNewCard()
