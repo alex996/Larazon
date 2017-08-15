@@ -15,6 +15,26 @@ class Card extends Model
         'default' => 'boolean'
     ];
 
+    /**
+     * Get the value of the model's route key.
+     *
+     * @return mixed
+     */
+    public function getRouteKey()
+    {
+        return $this->uid;
+    }
+
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'uid';
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

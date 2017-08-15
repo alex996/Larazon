@@ -4,8 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use App\Models\{Card, Cart, Category, Product, User};
-use App\Observers\{CartObserver, CategoryObserver, ProductObserver, UserObserver};
+use App\Models\{Address, Card, Cart, Category, Product, User};
+use App\Observers\{AddressObserver, CardObserver, CartObserver, CategoryObserver, ProductObserver, UserObserver};
 
 class ModelServiceProvider extends ServiceProvider
 {
@@ -48,6 +48,10 @@ class ModelServiceProvider extends ServiceProvider
         Cart::observe(CartObserver::class);
 
         User::observe(UserObserver::class);
+
+        Card::observe(CardObserver::class);
+
+        Address::observe(AddressObserver::class);
     }
 
     /**
