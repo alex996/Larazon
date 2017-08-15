@@ -35,7 +35,7 @@ class User extends Authenticatable
      */
     public function getRouteKey()
     {
-        return $this->uuid;
+        return $this->uid;
     }
 
     /**
@@ -45,7 +45,7 @@ class User extends Authenticatable
      */
     public function getRouteKeyName()
     {
-        return 'uuid';
+        return 'uid';
     }
 
     public function addresses()

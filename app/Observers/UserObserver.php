@@ -3,7 +3,6 @@
 namespace App\Observers;
 
 use App\Models\User;
-use Ramsey\Uuid\Uuid;
 
 class UserObserver
 {
@@ -15,9 +14,9 @@ class UserObserver
      */
     public function creating(User $user)
     {
-        // Whenever a user is created, auto-generate their uuid, if needed
-        if (! $user->isDirty('uuid')) {
-            $user->uuid = Uuid::uuid4()->toString();
+        // Whenever a user is created, auto-generate their uid, if needed
+        if (! $user->isDirty('uid')) {
+            $user->uid = str_random(14);
         }
     }
 }
