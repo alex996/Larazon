@@ -33,6 +33,57 @@ class CardTest extends TestCase
         $this->assertTrue($user->hasCardOnFile());
     }
 
+    public function testItAddsNewCardToExistingCustomer()
+    {
+        // Given
+        $jwtToken = $this->getJwtToken(
+            $user = factory(User::class)->create()
+        );
+        $user->createCustomerWithCard(
+            $this->getVisaToken()->id
+        );
+        $stripeToken = $this->getMasterCardToken();
+
+        // When
+        $response = $this->postJson(route('cards.store'), [
+            'token' => $stripeToken->id
+        ], [
+            'Authorization' => 'Bearer '.$jwtToken
+        ]);
+        $user = $user->fresh();
+        
+        // Then
+        $response->assertStatus(201);
+
+        $this->assertEquals($user->cards->count(), 2);
+        $this->assertEquals($user->cards->last()->stripe_id, $stripeToken->card->id);
+    }
+
+    /*public function testItDoesNotAddTheSameCardToCustomer()
+    {
+        // Given
+        $jwtToken = $this->getJwtToken(
+            $user = factory(User::class)->create()
+        );
+        $stripeToken = $this->getVisaToken();
+        $user->createCustomerWithCard(
+            $stripeToken->id
+        );
+        $sameCardToken = $this->makeStripeToken(
+            array_collapse((array) $stripeToken->card)
+        );
+dd($sameCardToken);
+        // When
+        $response = $this->postJson(route('cards.store'), [
+            'token' => $sameCardToken->id
+        ], [
+            'Authorization' => 'Bearer '.$jwtToken
+        ]);
+dd($response);
+        // Then
+        $response->assertStatus(400);
+    }*/
+
     /*public function testItUpdatesCustomerByAddingNewCard()
     {
         // Given

@@ -33,12 +33,13 @@ trait ActsAsCustomer
         $customer = $this->asStripeCustomer();
 
         $card = $customer->sources->create([
-            'source' => $token
+            'source' => $token,
+            'expand' => ['customer']
         ]);
 
         $this->addCard($card);
 
-        return $customer;
+        return $card->customer;
     }
 
     public function asStripeCustomer()
