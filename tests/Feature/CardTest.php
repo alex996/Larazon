@@ -95,4 +95,20 @@ class CardTest extends TestCase
                 ]
             ]);
     }
+
+    public function testItSoftDeletesUsersCard()
+    {
+        // Given
+        // $jwtToken = $this->getJwtToken(
+            // $user = factory(User::class)->create()
+        // );
+        // $user->cards()->create()
+
+        // When
+        
+
+        // Then
+        
+
+    }
 }
