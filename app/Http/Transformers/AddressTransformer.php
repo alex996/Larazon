@@ -10,6 +10,11 @@ class AddressTransformer extends TransformerAbstract
 {
     protected $geo;
 
+    /**
+     * Create a new transformer instance.
+     *
+     * @return  @void
+     */
     public function __construct(GeoRepository $geo)
     {
         $this->geo = $geo;

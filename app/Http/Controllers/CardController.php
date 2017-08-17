@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Card;
 use Stripe\Customer;
 use Illuminate\Http\Request;
-use Stripe\Error\Base as StripeException;
 use Illuminate\Support\Facades\Response;
+use Stripe\Error\Base as StripeException;
+use App\Http\Transformers\CardTransformer;
 
 class CardController extends Controller
 {
@@ -25,9 +26,11 @@ class CardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, CardTransformer $transformer)
     {
-        //
+        $cards = $request->user()->cards()->with('address')->get();
+
+        return Response::collection($cards, $transformer);
     }
 
     /**

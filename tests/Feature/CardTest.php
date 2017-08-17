@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use App\Models\User;
+use App\Models\{Address, Card, User};
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CardTest extends TestCase
@@ -60,4 +60,39 @@ class CardTest extends TestCase
     }
 
     /*public function testItDoesNotAddTheSameCardToCustomer()*/
+
+    public function testItReturnsUsersCardsWithBillingAddresses()
+    {
+        // Given
+        $jwtToken = $this->getJwtToken(
+            $user = factory(User::class)->create()
+        );
+        $user->cards()->saveMany(
+            factory(Card::class, 10)->create()->each(function($card) {
+                $card->address()->save(
+                    factory(Address::class)->make()
+                );
+            })
+        );
+
+        // When
+        $response = $this->getJson(route('cards.index'), [
+            'Authorization' => 'Bearer '.$jwtToken
+        ]);
+
+        // Then
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                'data' => [
+                    [
+                        'uid', 'brand', 'last4', 'country', 'exp_month', 'exp_year', 'default',
+                        'address' => [
+                            'data' => [
+                                'line_1', 'line_2', 'city', 'state', 'state_pretty', 'country', 'country_pretty', 'zip'
+                            ]
+                        ]
+                    ]
+                ]
+            ]);
+    }
 }
