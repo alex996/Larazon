@@ -11,13 +11,17 @@ use App\Http\Transformers\CardTransformer;
 
 class CardController extends Controller
 {
+    protected $transformer;
+
     /**
      * Create a new controller instance.
      *
      * @return  @void
      */
-    public function __construct()
+    public function __construct(CardTransformer $transformer)
     {
+        $this->transformer = $transformer;
+
         $this->middleware('jwt.auth');
     }
 
@@ -26,11 +30,11 @@ class CardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, CardTransformer $transformer)
+    public function index(Request $request)
     {
         $cards = $request->user()->cards()->with('address')->get();
 
-        return Response::collection($cards, $transformer);
+        return Response::collection($cards, $this->transformer);
     }
 
     /**
@@ -58,7 +62,9 @@ class CardController extends Controller
             return Response::message($e->getMessage(), 400);
         }
 
-        return Response::created('Card successfully added');
+        $card = $user->cards()->latest()->first();
+
+        return Response::createdWithItem('Card successfully added', $card, $this->transformer);
     }
 
     /**
