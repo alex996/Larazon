@@ -58,7 +58,7 @@ class CardController extends Controller
             return Response::message($e->getMessage(), 400);
         }
 
-        return Response::message('Card successfully added', 201);
+        return Response::created('Card successfully added');
     }
 
     /**

@@ -15,9 +15,7 @@ class Created
     public function bind(ResponseFactory $factory)
     {
         $factory->macro('created', function (string $message, array $headers = [], $options = 0) use ($factory) {
-            return $factory->json([
-                'message' => $message
-            ], 201, $headers, $options);
+            return $factory->message($message, 201, $headers, $options);
         });
     }
 }

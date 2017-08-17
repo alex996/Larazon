@@ -14,12 +14,13 @@ class ResponseServiceProvider extends ServiceProvider
      * @var array
      */
     protected $macros = [
+        Responses\Fractal\Messages\CreatedWithItem::class,
+        Responses\Fractal\Messages\MessageWithItem::class,
         Responses\Fractal\Item::class,
         Responses\Fractal\Collection::class,
         Responses\Fractal\Paginator::class,
         Responses\Created::class,
         Responses\Message::class,
-        Responses\NoContent::class,
     ];
 
     /**

@@ -40,7 +40,9 @@ class AddressTest extends TestCase
 
         // Then
         $response->assertStatus(201)
-            ->assertJsonStructure(['message']);
+            ->assertJsonStructure(['message', 'data' => [
+                'line_1', 'line_2', 'city', 'state', 'state_pretty', 'country', 'country_pretty', 'zip'
+            ]]);
 
         $this->assertDatabaseHas('addresses', $address);
     }

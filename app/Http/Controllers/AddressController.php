@@ -10,13 +10,17 @@ use App\Http\Transformers\AddressTransformer;
 
 class AddressController extends Controller
 {
+    protected $transformer;
+
     /**
      * Create a new controller instance.
      *
      * @return  @void
      */
-    public function __construct()
+    public function __construct(AddressTransformer $transformer)
     {
+        $this->transformer = $transformer;
+
         $this->middleware('jwt.auth');
     }
 
@@ -25,11 +29,11 @@ class AddressController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, AddressTransformer $transformer)
+    public function index(Request $request)
     {
         $addresses = $request->user()->addresses()->paginate(50);
 
-        return Response::paginator($addresses, $transformer);
+        return Response::paginator($addresses, $this->transformer);
     }
 
     /**
@@ -40,11 +44,11 @@ class AddressController extends Controller
      */
     public function store(StoreAddress $request)
     {
-        $request->user()->addresses()->create(
+        $address = $request->user()->addresses()->create(
             $request->all()
         );
 
-        return Response::created('Address successfully created.');
+        return Response::createdWithItem('Address successfully created.', $address, $this->transformer);
     }
 
     /**
