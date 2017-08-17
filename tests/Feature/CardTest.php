@@ -27,7 +27,18 @@ class CardTest extends TestCase
         $user = $user->fresh();
 
         // Then
-        $response->assertStatus(201);
+        $response->assertStatus(201)
+            ->assertJsonStructure([
+                'message',
+                'data' => [
+                    'uid', 'brand', 'last4', 'country', 'exp_month', 'exp_year', 'default',
+                    'address' => [
+                        'data' => [
+                            'line_1', 'line_2', 'city', 'state', 'state_pretty', 'country', 'country_pretty', 'zip'
+                        ]
+                    ]
+                ]
+            ]);
 
         $this->assertTrue($user->hasStripeId());
         $this->assertTrue($user->hasCardOnFile());

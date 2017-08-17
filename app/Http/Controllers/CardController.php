@@ -62,9 +62,9 @@ class CardController extends Controller
             return Response::message($e->getMessage(), 400);
         }
 
-        $card = $user->cards()->latest()->first();
+        $card = $user->cards()->with('address')->latest()->first();
 
-        return Response::createdWithItem('Card successfully added', $card, $this->transformer);
+        return Response::createdWithItem('Card successfully added.', $card, $this->transformer);
     }
 
     /**
