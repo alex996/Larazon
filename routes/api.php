@@ -46,3 +46,6 @@ Route::get('addresses', 'AddressController@index')->name('addresses.index');
 Route::post('cards', 'CardController@store')->name('cards.store');
 Route::get('cards', 'CardController@index')->name('cards.index');
 Route::delete('cards/{card}', 'CardController@index')->name('cards.destroy');
+
+// Orders
+Route::post('orders', 'OrderController@store')->name('orders.store');

@@ -2,6 +2,7 @@
 
 namespace App\Models\Billing;
 
+use Stripe\Charge;
 use Stripe\Customer;
 
 trait ActsAsCustomer
@@ -45,5 +46,10 @@ trait ActsAsCustomer
     public function asStripeCustomer()
     {
         return Customer::retrieve($this->stripe_id);
+    }
+
+    public function charge()
+    {
+        
     }
 }

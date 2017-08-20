@@ -53,6 +53,11 @@ class User extends Authenticatable
         return $this->morphMany(Address::class, 'addressable');
     }
 
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
+    }
+
     /*public function owns($entity)
     {
         return $this->id == $entity->user_id;

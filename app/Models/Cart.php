@@ -33,6 +33,13 @@ class Cart extends Model
             ->withTimestamps();
     }
 
+    public function subtotal()
+    {
+        return $this->products->sum(function($product) {
+            return $product->price * $product->pivot->quantity;
+        });
+    }
+
     /*public function addProduct(Product $product, int $quantity = 1)
     {
         return $this->products()->attach(
