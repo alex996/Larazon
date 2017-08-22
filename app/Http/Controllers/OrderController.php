@@ -6,6 +6,7 @@ use Exception;
 use App\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use App\Http\Requests\Orders\StoreOrder;
 use App\Http\Transformers\OrderTransformer;
 
 class OrderController extends Controller
@@ -40,28 +41,23 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreOrder $request)
     {
         // check that user has any *active* carts (Policy?)
 
         $user = $request->user();
 
-        $this->validate($request, [
-            'card' => 'required|exists:cards,uid,user_id,'.$user->id,
-            'address' => 'required|exists:addresses,uid,user_id,'.$user->id
-        ]);
 
         // check that all products in stock
 
-        $cart = Cart::with('products')->whereUid($request->uid)->first();
+        //$cart = Cart::with('products')->whereUid($request->uid)->first();
 
         try {
-            $user->charge($cart->subtotal());
+            //$user->placeOrder($car)
+            //$user->charge($cart->subtotal());
         } catch(Exception $e) {
             return Response::message($e->getMessage(), 400);
         }
-
-        $order = Order::create([]);
         
         return Response::createdWithItem('Order successfully placed.', $order, $transfomer);
     }

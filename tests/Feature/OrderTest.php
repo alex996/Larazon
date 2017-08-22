@@ -23,12 +23,13 @@ class OrderTest extends TestCase
                 'quantity' => 1
             ]);
         });
-        $user->addresses()->save($address = factory(Address::class)->make());
-        $user->cards()->save($card = factory(Card::class)->make());
-        
+        $user->addresses()->save(factory(Address::class)->make());
+        $user->cards()->save(factory(Card::class)->make());
+        $address = $user->cards()->first();
+        $card = $user->addresses()->first();
+
         // When
-        $response = $this->post(route('orders.store'), [
-            'cart' => $cart->uuid,
+        $response = $this->postJson(route('orders.store'), [
             'card' => $card->uid,
             'address' => $address->uid,
         ], [
